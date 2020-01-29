@@ -1,4 +1,39 @@
 ---
 # tasks file for ansible-wireguard-server
-- fail:
-    msg: This role is not implemented yet!
+- name: "Install necessary packages"
+  pacman:
+    name:
+      - "wireguard-tools"
+      - "wireguard-arch"
+      - "systemd-resolvconf"
+    state: latest
+
+- name: "Make sure /etc/wireguard exists"
+  file:
+    path: "/etc/wireguard"
+    state: directory
+    owner: root
+    group: root
+    mode: '0700'
+
+- name: Template wg0.conf.j2 to /etc/wireguard/wg0.conf
+  template:
+    src: wg0.conf.j2
+    dest: /etc/wireguard/wg0.conf
+    mode: '0644'
+    owner: root
+    group: root
+
+
+- name: "Enable wg-quick@wg0.service on startup"
+  systemd:
+    name: "wg-quick@wg0.service"
+    enabled: yes
+    masked: no
+
+- name: "Start wg-quick@wg0.service"
+  systemd:
+    state: started
+    name: "wg-quick@wg0.service"
+
+

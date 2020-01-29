@@ -1,2 +1,9 @@
 ---
+# defaults file for ansible-wireguard-client
+wireguard_client_privkey: "{{ lookup('passwordstore', 'local/{{inventory_hostname}}/wireguard/private')}}"
+wireguard_client_dns: "1.1.1.1"
+wireguard_server_listen_port: "51820"
+wireguard_interface: "eth0"
+
+
 # defaults file for ansible-wireguard-server
