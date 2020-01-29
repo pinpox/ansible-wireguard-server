@@ -1,0 +1,4 @@
+---
+# tasks file for ansible-wireguard-server
+- fail:
+    msg: This role is not implemented yet!
